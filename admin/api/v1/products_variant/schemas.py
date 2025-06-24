@@ -7,6 +7,7 @@ class ProductVariantBase(BaseModel):
     product_id: int
     color: Optional[str] = None
     size: Optional[str] = None
+    material: Optional[str] = None
     stock_quantity: Optional[int] = 0
     price: float
 
@@ -17,6 +18,7 @@ class ProductVariantUpdate(BaseModel):
     product_id: Optional[int] = None
     color: Optional[str] = None
     size: Optional[str] = None
+    material: Optional[str] = None
     stock_quantity: Optional[int] = None
     price: Optional[float] = None
 

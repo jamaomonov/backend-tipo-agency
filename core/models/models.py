@@ -59,5 +59,10 @@ class ProductImage(Base):
     id = Column(Integer, primary_key=True)
     variant_id = Column(Integer, ForeignKey("product_variants.id"), nullable=False)
     url = Column(String(500), nullable=False)
+    is_main = Column(Boolean, default=False)
 
     variant = relationship("ProductVariant", back_populates="images")
+
+    def __init__(self, url, **kwargs):
+        super().__init__(url=url, **kwargs)
+        self.is_main = kwargs.get('is_main', False)  # Устанавливаем значение по умолчанию для is_main

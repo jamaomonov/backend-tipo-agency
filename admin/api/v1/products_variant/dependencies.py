@@ -35,7 +35,21 @@ async def read_variants(skip: int, limit: int, db: AsyncSession) -> list[Product
     )
     return result.scalars().all()
 
-async def read_variant_by_product_id(product_id: int, db: AsyncSession) -> list[ProductVariant]:
+async def read_variant_by_id(variant_id: int, db: AsyncSession) -> ProductVariant:
+    result = await db.execute(
+        select(ProductVariant)
+        .options(
+            selectinload(ProductVariant.product).selectinload(Product.category),
+            selectinload(ProductVariant.images)
+        )
+        .where(ProductVariant.id == variant_id)
+    )
+    variant = result.scalar_one_or_none()
+    if not variant:
+        raise HTTPException(status_code=404, detail="ProductVariant not found")
+    return variant
+
+async def read_variants_by_product_id(product_id: int, db: AsyncSession) -> list[ProductVariant]:
     result = await db.execute(
         select(ProductVariant)
         .options(
