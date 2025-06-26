@@ -33,10 +33,10 @@ async def read_variant_route(product_id: int, db: AsyncSession = Depends(db_help
         raise HTTPException(status_code=404, detail=f"ProductVariant with {product_id} not found")
     return variant
 
-@router.put("/variants/{variant_id}", response_model=ProductVariantRead)
+@router.put("/variant/{variant_id}", response_model=ProductVariantRead)
 async def update_variant_route(variant_id: int, variant: ProductVariantUpdate, db: AsyncSession = Depends(db_helper.session_dependency)):
     return await update_variant(variant_id, variant, db)
 
-@router.delete("/variants/{variant_id}")
+@router.delete("/variant/{variant_id}")
 async def delete_variant_route(variant_id: int, db: AsyncSession = Depends(db_helper.session_dependency)):
     return await delete_variant(variant_id, db)
