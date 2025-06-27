@@ -20,7 +20,7 @@ class Setting(BaseSettings):
 
     db_host: str = "host.docker.internal" if container else "localhost"
 
-    db_url: str  = f"postgresql+asyncpg://postgres:jamshid007@{db_host}:5432/snovidenie_db"
+    db_url: str  = f"postgresql+asyncpg://postgres:jamshid007@{db_host}:5432/tipa_db"
     db_echo: bool = False
 
 
