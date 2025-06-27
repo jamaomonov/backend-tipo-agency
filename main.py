@@ -5,6 +5,7 @@ from core.config import STATIC_DIR, STATIC_MOUNT_PATH
 import logging
 from core.lifespan import lifespan
 from admin.api.routes import router as admin_router
+from client.api.routes import router as snovidenie_router
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ admin_app = FastAPI(
 
 # Подключение роутеров
 admin_app.include_router(router=admin_router, prefix="/api/v1")  # Префикс внутри admin_app
-# app.include_router(router=client_router, prefix="/api/v1")
+app.include_router(router=snovidenie_router, prefix="/api/v1")  # Маршруты snovidenie.uz
 
 # Подключение статических файлов
 app.mount(STATIC_MOUNT_PATH, StaticFiles(directory=STATIC_DIR), name="images")
