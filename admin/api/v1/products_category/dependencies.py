@@ -5,6 +5,11 @@ from core.models.models import ProductCategory
 from admin.api.v1.products_category.schemas import ProductCategoryCreate, ProductCategoryUpdate
 
 async def create_category(category: ProductCategoryCreate, db: AsyncSession) -> ProductCategory:
+    # Проверяем на дубликат по name
+    existing_category = await db.execute(select(ProductCategory).where(ProductCategory.name == category.name))
+    if existing_category.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail=f"Category with name '{category.name}' already exists")
+    
     db_category = ProductCategory(**category.dict())
     db.add(db_category)
     await db.commit()

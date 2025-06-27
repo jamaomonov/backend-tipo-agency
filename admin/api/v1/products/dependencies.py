@@ -9,6 +9,12 @@ async def create_product(product: ProductCreate, db: AsyncSession) -> Product:
     category_result = await db.execute(select(ProductCategory).where(ProductCategory.id == product.category_id))
     if not category_result.scalar_one_or_none():
         raise HTTPException(status_code=400, detail=f"Category with id: {product.category_id} does not exist")
+    
+    # Проверяем на дубликат по name
+    existing_product = await db.execute(select(Product).where(Product.name == product.name))
+    if existing_product.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail=f"Product with name '{product.name}' already exists")
+    
     db_product = Product(**product.dict())
     db.add(db_product)
     await db.commit()
