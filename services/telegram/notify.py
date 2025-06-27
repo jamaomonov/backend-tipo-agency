@@ -1,14 +1,19 @@
 from aiogram import Bot
 import logging
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+token = os.getenv("TELEGRAM_TOKEN")
+chat_id = os.getenv("TELEGRAM_CHAT_ID")
 
 logger = logging.getLogger(__name__)
 
 
 async def notify_telegram(text: str):
-    TELEGRAM_CHAT_ID = -4954873832
     try:
-        async with Bot(token="7540596625:AAFmvy9fsfof5jaeiaLseFsmGfNgx6000_8") as bot:
-            await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=text)
+        async with Bot(token=token) as bot:
+            await bot.send_message(chat_id=chat_id, text=text)
     except Exception:
         logger.error("❗ Ошибка при отправке в Telegram:", exc_info=True)
 
